@@ -1,0 +1,11 @@
+say "hello world";
+say "andrew";
+say "created this";
+say 1 + 2;
+say 1 + 1 + 1;
+say 3 - 1;
+say 10 - 5 - 2;
+say 5 - 7;
+assign foo to "this is my first variable!";
+say foo;
+say "andrew" (10 times);

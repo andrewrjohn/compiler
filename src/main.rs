@@ -34,32 +34,38 @@ fn main() {
                 printable = re.replace_all(statement, "").replace("\n", "");
             }
 
-            if printable.contains("+") {
-                let parts: Vec<&str> = printable.split("+").collect();
-                let sum: i128 = parts
-                    .into_iter()
-                    .map(|p| {
-                        p.trim()
-                            .parse::<i128>()
-                            .expect("can't add non-number values")
-                    })
-                    .sum();
-
-                for _ in 0..run_count {
-                    println!("{}", sum);
-                }
-            } else if printable.contains("-") {
-                let parts: Vec<&str> = printable.split("-").collect();
+            if printable.contains("-") || printable.contains("+") {
+                let parts: Vec<&str> = printable.split(" ").collect();
                 let starting = parts[0].trim().parse::<i128>().expect("must be number");
 
-                let result: i128 = parts.into_iter().skip(1).fold(starting, |acc, p| {
-                    let n = p
-                        .trim()
-                        .parse::<i128>()
-                        .expect("can't subtract non-number values");
+                let result: i128 =
+                    parts
+                        .iter()
+                        .skip(1)
+                        .enumerate()
+                        .fold(starting, |acc, (i, p)| {
+                            let token = p.trim();
 
-                    acc - n
-                });
+                            match token {
+                                "+" | "-" => acc,
+
+                                _ => {
+                                    // Don't have to do i - 1 because we're skipping the first value (I think???)
+                                    let operator = parts[i];
+
+                                    let n = p
+                                        .trim()
+                                        .parse::<i128>()
+                                        .expect("can't subtract non-number values");
+
+                                    match operator {
+                                        "+" => acc + n,
+                                        "-" => acc - n,
+                                        _ => acc,
+                                    }
+                                }
+                            }
+                        });
 
                 for _ in 0..run_count {
                     println!("{}", result);

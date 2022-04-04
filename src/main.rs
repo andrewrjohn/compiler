@@ -53,10 +53,12 @@ fn main() {
                 let starting = parts[0].trim().parse::<i128>().expect("must be number");
 
                 let result: i128 = parts.into_iter().skip(1).fold(starting, |acc, p| {
-                    acc - p
+                    let n = p
                         .trim()
                         .parse::<i128>()
-                        .expect("can't subtract non-number values")
+                        .expect("can't subtract non-number values");
+
+                    acc - n
                 });
 
                 for _ in 0..run_count {
